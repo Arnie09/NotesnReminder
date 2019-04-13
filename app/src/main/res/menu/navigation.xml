@@ -11,6 +11,4 @@
         android:icon="@drawable/ic_add_alarm"
         android:title="@string/title_dashboard" />
 
-
-
 </menu>
