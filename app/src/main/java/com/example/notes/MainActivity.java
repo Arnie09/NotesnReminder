@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.add_notes:
                     button.setText(R.string.notes_message);
-                    textView.setVisibility(View.VISIBLE);
-                    textView2.setVisibility(View.INVISIBLE);
+                    timePicker.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.remainder:
-                    textView2.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.INVISIBLE);
+                    timePicker.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
                     button.setText(R.string.remainder_message);
 
                     return true;
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     Button button;
-    TextView textView;
-    TextView textView2;
+    RecyclerView recyclerView;
+    TimePicker timePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         appname.setText("Notes");
 
         button = findViewById(R.id.button);
-        textView = findViewById(R.id.Notes_message);
-        textView2 = findViewById(R.id.remainder_message);
+        recyclerView = findViewById(R.id.RecyclerView);
+        timePicker = findViewById(R.id.TimePicker);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.add_notes);
