@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     Menu menu_toolbar;
     MyCustomAdapter customAdapter;
+    View previous_view;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -135,7 +137,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void highlightCurrentRow(View currentselectedview) {currentselectedview.setBackgroundColor(Color.GRAY);    }
+    private void highlightCurrentRow(View currentselectedview) {
+        if(previous_view == null) {
+            currentselectedview.setBackgroundColor(Color.GRAY);
+            previous_view = currentselectedview;
+        }
+        else{
+            previous_view.setBackgroundColor(Color.parseColor("#00000000"));
+            currentselectedview.setBackgroundColor(Color.GRAY);
+            previous_view = currentselectedview;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
