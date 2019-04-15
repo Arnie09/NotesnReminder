@@ -9,8 +9,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NoteTaking extends AppCompatActivity {
 
+    DatabaseHandler databaseHandler;
+    TextView matter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +27,10 @@ public class NoteTaking extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView appname = findViewById(R.id.appname);
-        appname.setText("Notes and Remainder");
+        appname.setText("Add Note");
+
+        databaseHandler = new DatabaseHandler(this);
+        matter = findViewById(R.id.Matter);
     }
 
     @Override
@@ -36,6 +45,10 @@ public class NoteTaking extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.Save){
             //make database entry
+            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            Date dateobj = new Date();
+            String currDate = df.format(dateobj);
+            databaseHandler.insertData(matter.getText().toString(),currDate);
             Toast.makeText(this, "Item Saved", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
