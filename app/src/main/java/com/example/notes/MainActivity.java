@@ -169,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.Delete){
             //Delete the item
             Integer res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
-            if(res != -1)
+            Log.i("MAIN_ACTIVITY",res.toString());
+            if(res != 0)
             Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this, "Sorry something went wrong!", Toast.LENGTH_SHORT).show();
