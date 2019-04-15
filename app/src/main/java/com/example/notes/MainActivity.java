@@ -12,10 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,6 +33,23 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    List<Integer>id;
+    List<String>matterList;
+    List<String>dateList;
+    Cursor result;
+    DatabaseHandler databaseHandler;
+    Button TakeNotes;
+    Button StartTimer;
+    ListView listView;
+    TimePicker timePicker;
+    View Noteslayout;
+    View Remainderlayout;
+    Toolbar toolbar;
+    int ID_TO_BE_DELETED;
+    View currentselectedview;
+    BottomNavigationView navigation;
+    Menu menu_toolbar;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -37,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.add_notes:
-
+                    workwithOptionToolbar(true);
+                    //menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,true);
                     Noteslayout.setVisibility(View.VISIBLE);
                     Remainderlayout.setVisibility(View.INVISIBLE);
                     result = databaseHandler.getallData();
@@ -61,6 +82,16 @@ public class MainActivity extends AppCompatActivity {
 
                         MyCustomAdapter customAdapter = new MyCustomAdapter();
                         listView.setAdapter(customAdapter);
+                        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long idno) {
+                                ID_TO_BE_DELETED = id.get(position);
+                                currentselectedview = view;
+                                highlightCurrentRow(currentselectedview);
+                                return false;
+                            }
+                        });
+
                     }
                     TakeNotes.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -70,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     });
                     return true;
                 case R.id.remainder:
+
+                    workwithOptionToolbar(false);
                     Noteslayout.setVisibility(View.INVISIBLE);
                     Remainderlayout.setVisibility(View.VISIBLE);
                     StartTimer.setOnClickListener(new View.OnClickListener() {
@@ -83,23 +116,27 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-    List<Integer>id;
-    List<String>matterList;
-    List<String>dateList;
-    Cursor result;
-    DatabaseHandler databaseHandler;
-    Button TakeNotes;
-    Button StartTimer;
-    ListView listView;
-    TimePicker timePicker;
-    View Noteslayout;
-    View Remainderlayout;
+
+    private void workwithOptionToolbar(boolean b) {
+        if(menu_toolbar != null) {
+            Log.i("MAIN_ACTIVITY", "Not Null");
+            menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,b);
+        }
+        else {
+            Log.i("MAIN_ACTIVITY", "Null");
+            return;
+        }
+
+    }
+
+    private void highlightCurrentRow(View currentselectedview) {currentselectedview.setBackgroundColor(Color.GRAY);    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView appname = findViewById(R.id.appname);
@@ -112,10 +149,34 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.RecyclerView);
         timePicker = findViewById(R.id.TimePicker);
         StartTimer = findViewById(R.id.timerStart);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.add_notes);
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_activity_options_menu,menu);
+        menu_toolbar = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.Delete){
+            //Delete the item
+            Integer res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
+            if(res != -1)
+            Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Sorry something went wrong!", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     class MyCustomAdapter extends BaseAdapter {
 
         @Override

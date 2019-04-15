@@ -46,5 +46,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM "+TABLE_NAME,null);
         return res;
     }
+
+    public Integer deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME,"SERIAL = ?",new String[]{id});
+    }
 }
 
