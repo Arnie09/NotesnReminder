@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     View currentselectedview;
     BottomNavigationView navigation;
     Menu menu_toolbar;
+    MyCustomAdapter customAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -61,28 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     //menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,true);
                     Noteslayout.setVisibility(View.VISIBLE);
                     Remainderlayout.setVisibility(View.INVISIBLE);
-                    result = databaseHandler.getallData();
-                    if(result.getCount() == 0){
-                        Log.i("MAIN_ACTIVITY","NO DATA");
-                    }
-                    else{
-                        id = new ArrayList<Integer>();
-                        matterList = new ArrayList<String>();
-                        dateList = new ArrayList<String>();
-                        StringBuffer buff = new StringBuffer();
-                        while(result.moveToNext()){
-                            buff.append("Serial: "+result.getString(0)+"\n");
-                            buff.append(result.getString(1)+"\n");
-                            buff.append("Date: "+result.getString(2)+"\n\n");
-                            id.add(Integer.parseInt(result.getString(0)));
-                            matterList.add(result.getString(1));
-                            dateList.add(result.getString(2));
-                        }
-                        Log.i("MAIN_ACTIVITY",buff.toString());
-
-                        MyCustomAdapter customAdapter = new MyCustomAdapter();
-                        listView.setAdapter(customAdapter);
-                        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    refreshListView();
+                    listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long idno) {
                                 ID_TO_BE_DELETED = id.get(position);
@@ -90,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                                 highlightCurrentRow(currentselectedview);
                                 return false;
                             }
-                        });
+                    });
 
-                    }
+
                     TakeNotes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -116,6 +97,31 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    public  void refreshListView(){
+        result = databaseHandler.getallData();
+        if(result.getCount() == 0){
+            Log.i("MAIN_ACTIVITY","NO DATA");
+        }
+        else {
+            id = new ArrayList<Integer>();
+            matterList = new ArrayList<String>();
+            dateList = new ArrayList<String>();
+            StringBuffer buff = new StringBuffer();
+            while (result.moveToNext()) {
+                buff.append("Serial: " + result.getString(0) + "\n");
+                buff.append(result.getString(1) + "\n");
+                buff.append("Date: " + result.getString(2) + "\n\n");
+                id.add(Integer.parseInt(result.getString(0)));
+                matterList.add(result.getString(1));
+                dateList.add(result.getString(2));
+            }
+            Log.i("MAIN_ACTIVITY", buff.toString());
+
+            customAdapter = new MyCustomAdapter();
+            listView.setAdapter(customAdapter);
+        }
+    }
 
     private void workwithOptionToolbar(boolean b) {
         if(menu_toolbar != null) {
@@ -166,14 +172,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.Delete){
+        if(id == R.id.Delete) {
             //Delete the item
             Integer res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
-            Log.i("MAIN_ACTIVITY",res.toString());
-            if(res != 0)
-            Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
-            else
+            Log.i("MAIN_ACTIVITY", res.toString());
+
+
+            if (res != 0) {
+                refreshListView();
+                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+            } else {
+                refreshListView();
                 Toast.makeText(this, "Sorry something went wrong!", Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
