@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="notes_message">Add a note</string>
     <string name="remainder_message">Add a remainder</string>
+    <string name="timer_button_text">Start</string>
 </resources>
