@@ -51,6 +51,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME,"SERIAL = ?",new String[]{id});
     }
-    
+
+    public Cursor getOneData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE SERIAL="+id,null);
+        return res;
+    }
 }
 

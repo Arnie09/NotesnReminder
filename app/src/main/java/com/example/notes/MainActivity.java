@@ -109,16 +109,12 @@ public class MainActivity extends AppCompatActivity {
             id = new ArrayList<Integer>();
             matterList = new ArrayList<String>();
             dateList = new ArrayList<String>();
-            StringBuffer buff = new StringBuffer();
             while (result.moveToNext()) {
-                buff.append("Serial: " + result.getString(0) + "\n");
-                buff.append(result.getString(1) + "\n");
-                buff.append("Date: " + result.getString(2) + "\n\n");
+
                 id.add(Integer.parseInt(result.getString(0)));
                 matterList.add(result.getString(1));
                 dateList.add(result.getString(2));
             }
-            Log.i("MAIN_ACTIVITY", buff.toString());
 
             customAdapter = new MyCustomAdapter();
             listView.setAdapter(customAdapter);
