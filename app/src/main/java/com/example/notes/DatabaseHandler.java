@@ -57,5 +57,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE SERIAL="+id,null);
         return res;
     }
+    public boolean updateData(String id, String matter,String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_1,id);
+        contentValues.put(COLUMN_2,matter);
+        contentValues.put(COLUMN_3,date);
+        db.update(TABLE_NAME,contentValues,"SERIAL = ?",new String[]{id});
+        return true;
+    }
 }
 

@@ -39,7 +39,7 @@ public class EditNotes extends AppCompatActivity {
         // Using the id from the intent add the data to the textview matter
         Intent intent = getIntent();
         ID_TO_BE_EDITED = intent.getIntExtra("ID",-1);
-        //Log.i("EDITNOTES: ",String.valueOf(ID_TO_BE_EDITED));
+
         Cursor res = databaseHandler.getOneData(String.valueOf(ID_TO_BE_EDITED));
         if(res.moveToFirst()) {
             matter.setText(res.getString(1));
@@ -61,7 +61,7 @@ public class EditNotes extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date dateobj = new Date();
             String currDate = df.format(dateobj);
-            databaseHandler.insertData(matter.getText().toString(),currDate);
+            databaseHandler.updateData(String.valueOf(ID_TO_BE_EDITED),matter.getText().toString(),currDate);
             Toast.makeText(this, "Item Saved", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
