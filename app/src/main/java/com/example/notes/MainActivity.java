@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     View Noteslayout;
     View Remainderlayout;
     Toolbar toolbar;
-    int ID_TO_BE_DELETED;
+    int ID_TO_BE_DELETED = -1;
     View currentselectedview;
     BottomNavigationView navigation;
     Menu menu_toolbar;
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         if(menu_toolbar != null) {
             Log.i("MAIN_ACTIVITY", "Not Null");
             menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,b);
+            menu_toolbar.setGroupVisible(R.id.options_menu_editbutton,b);
         }
         else {
             Log.i("MAIN_ACTIVITY", "Null");
@@ -186,16 +187,22 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.Delete) {
             //Delete the item
-            Integer res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
-            Log.i("MAIN_ACTIVITY", res.toString());
-
-
-            if (res != 0) {
-                refreshListView();
-                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
-            } else {
-                refreshListView();
-                Toast.makeText(this, "Sorry something went wrong!", Toast.LENGTH_SHORT).show();
+            Integer res;
+            Log.i("MAIN_ACTIVITY_2: ",String.valueOf(ID_TO_BE_DELETED));
+            if(ID_TO_BE_DELETED!=-1) {
+                Log.i("MAIN_ACTIVITY_2: ",String.valueOf(ID_TO_BE_DELETED));
+                res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
+                if (res != 0) {
+                    refreshListView();
+                    Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                    ID_TO_BE_DELETED = -1;
+                } else {
+                    refreshListView();
+                    Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(this, "Please select a data first!", Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);

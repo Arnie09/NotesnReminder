@@ -8,5 +8,15 @@
         android:title="deleteButton"
         android:icon="@drawable/ic_delete"
         app:showAsAction="ifRoom"/>
+
+    </group>
+    <group
+        android:id="@+id/options_menu_editbutton">
+
+        <item
+            android:id="@+id/Edit"
+            android:title="editButton"
+            android:icon="@drawable/ic_edit_black_24dp"
+            app:showAsAction="ifRoom"/>
     </group>
 </menu>
