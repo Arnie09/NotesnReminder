@@ -205,6 +205,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please select a data first!", Toast.LENGTH_SHORT).show();
             }
         }
+        else if(id == R.id.Edit){
+            //Edit the item
+            Long res;
+            Log.i("MAIN_ACTIVITY_3: ",String.valueOf(ID_TO_BE_DELETED));
+            if(ID_TO_BE_DELETED==-1){
+                Toast.makeText(this, "Please select the data to edit!", Toast.LENGTH_SHORT).show();
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
