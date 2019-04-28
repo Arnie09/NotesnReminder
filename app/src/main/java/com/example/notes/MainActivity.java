@@ -212,6 +212,11 @@ public class MainActivity extends AppCompatActivity {
             if(ID_TO_BE_DELETED==-1){
                 Toast.makeText(this, "Please select the data to edit!", Toast.LENGTH_SHORT).show();
             }
+            else{
+                Intent intent = new Intent(getApplicationContext(),EditNotes.class);
+                intent.putExtra("ID",ID_TO_BE_DELETED);
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

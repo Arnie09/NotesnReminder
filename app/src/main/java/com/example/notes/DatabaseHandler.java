@@ -51,5 +51,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME,"SERIAL = ?",new String[]{id});
     }
+    
 }
 
