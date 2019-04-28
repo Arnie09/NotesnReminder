@@ -38,7 +38,7 @@ public class EditNotes extends AppCompatActivity {
         // Using the id from the intent add the data to the textview matter
         Intent intent = getIntent();
         ID_TO_BE_EDITED = intent.getIntExtra("ID",-1);
-        Log.i("EDITNOTES: ",String.valueOf(ID_TO_BE_EDITED));
+        //Log.i("EDITNOTES: ",String.valueOf(ID_TO_BE_EDITED));
 
     }
     @Override
