@@ -35,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
     Cursor result;
     DatabaseHandler databaseHandler;
     Button TakeNotes;
-    Button StartTimer;
+    Button NewRemainder;
     ListView listView;
-    TimePicker timePicker;
     View Noteslayout;
     View Remainderlayout;
     Toolbar toolbar;
@@ -83,7 +82,12 @@ public class MainActivity extends AppCompatActivity {
                     workwithOptionToolbar(false);
                     Noteslayout.setVisibility(View.INVISIBLE);
                     Remainderlayout.setVisibility(View.VISIBLE);
-                    
+                    NewRemainder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getApplicationContext(),NewRemainderActivity.class));
+                        }
+                    });
                     return true;
             }
             return false;
@@ -160,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Remainderlayout = findViewById(R.id.remainderItems);
         TakeNotes = findViewById(R.id.button);
         listView = findViewById(R.id.RecyclerView);
+        NewRemainder = findViewById(R.id.new_remainder);
 //        timePicker = findViewById(R.id.TimePicker);
 //        StartTimer = findViewById(R.id.timerStart);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
