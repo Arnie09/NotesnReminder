@@ -39,12 +39,14 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     View Noteslayout;
     View Remainderlayout;
+    ListView listView2;
     Toolbar toolbar;
     int ID_TO_BE_DELETED = -1;
     View currentselectedview;
     BottomNavigationView navigation;
     Menu menu_toolbar;
-    MyCustomAdapter customAdapter;
+    MyCustomAdapter customAdapter1;
+    MyCustomAdapter customAdapter2;
     View previous_view;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     //menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,true);
                     Noteslayout.setVisibility(View.VISIBLE);
                     Remainderlayout.setVisibility(View.INVISIBLE);
-                    refreshListView();
+                    refreshListView("Notes");
                     listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long idno) {
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                     workwithOptionToolbar(false);
                     Noteslayout.setVisibility(View.INVISIBLE);
                     Remainderlayout.setVisibility(View.VISIBLE);
+                    //listview stuff goes here
+                    refreshListView("Reminder");
+
                     NewRemainder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -94,24 +99,44 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public  void refreshListView(){
-        result = databaseHandler.getallData();
-        if(result.getCount() == 0){
-            Log.i("MAIN_ACTIVITY","NO DATA");
-        }
-        else {
-            id = new ArrayList<Integer>();
-            matterList = new ArrayList<String>();
-            dateList = new ArrayList<String>();
-            while (result.moveToNext()) {
+    public  void refreshListView(String s){
+        if(s == "Notes") {
+            result = databaseHandler.getallData_Notes();
+            if (result.getCount() == 0) {
+                Log.i("MAIN_ACTIVITY", "NO DATA");
+            } else {
+                id = new ArrayList<Integer>();
+                matterList = new ArrayList<String>();
+                dateList = new ArrayList<String>();
+                while (result.moveToNext()) {
 
-                id.add(Integer.parseInt(result.getString(0)));
-                matterList.add(result.getString(1));
-                dateList.add(result.getString(2));
+                    id.add(Integer.parseInt(result.getString(0)));
+                    matterList.add(result.getString(1));
+                    dateList.add(result.getString(2));
+                }
+
+                customAdapter1 = new MyCustomAdapter();
+                listView.setAdapter(customAdapter1);
             }
+        }
+        else if(s == "Reminder"){
+            result = databaseHandler.getallData_Reminders();
+            if (result.getCount() == 0) {
+                Log.i("MAIN_ACTIVITY", "NO DATA");
+            } else {
+                id = new ArrayList<Integer>();
+                matterList = new ArrayList<String>();
+                dateList = new ArrayList<String>();
+                while (result.moveToNext()) {
 
-            customAdapter = new MyCustomAdapter();
-            listView.setAdapter(customAdapter);
+                    id.add(Integer.parseInt(result.getString(0)));
+                    matterList.add(result.getString(1));
+                    dateList.add(result.getString(2));
+                }
+
+                customAdapter2 = new MyCustomAdapter();
+                listView2.setAdapter(customAdapter2);
+            }
         }
     }
 
@@ -164,9 +189,8 @@ public class MainActivity extends AppCompatActivity {
         Remainderlayout = findViewById(R.id.remainderItems);
         TakeNotes = findViewById(R.id.button);
         listView = findViewById(R.id.RecyclerView);
+        listView2 = findViewById(R.id.ListView);
         NewRemainder = findViewById(R.id.new_remainder);
-//        timePicker = findViewById(R.id.TimePicker);
-//        StartTimer = findViewById(R.id.timerStart);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.add_notes);
@@ -192,11 +216,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("MAIN_ACTIVITY_2: ",String.valueOf(ID_TO_BE_DELETED));
                 res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
                 if (res != 0) {
-                    refreshListView();
+                    refreshListView("Notes");
                     Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
                     ID_TO_BE_DELETED = -1;
                 } else {
-                    refreshListView();
+                    refreshListView("Notes");
                     Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
                 }
             }

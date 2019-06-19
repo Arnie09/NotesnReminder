@@ -61,7 +61,7 @@ public class EditNotes extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date dateobj = new Date();
             String currDate = df.format(dateobj);
-            databaseHandler.updateData(String.valueOf(ID_TO_BE_EDITED),matter.getText().toString(),currDate);
+            databaseHandler.updateData(String.valueOf(ID_TO_BE_EDITED),matter.getText().toString(),currDate,"NOTES");
             Toast.makeText(this, "Item Saved", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);

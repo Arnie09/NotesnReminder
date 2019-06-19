@@ -76,7 +76,7 @@
             android:background="#50EAEAEA"></DatePicker>
 
         <TimePicker
-            android:id="@+id/time"
+            android:id="@+id/time_"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

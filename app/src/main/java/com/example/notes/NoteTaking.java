@@ -48,7 +48,7 @@ public class NoteTaking extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date dateobj = new Date();
             String currDate = df.format(dateobj);
-            databaseHandler.insertData(matter.getText().toString(),currDate);
+            databaseHandler.insertData(matter.getText().toString(),currDate,"NOTES");
             Toast.makeText(this, "Item Saved", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
