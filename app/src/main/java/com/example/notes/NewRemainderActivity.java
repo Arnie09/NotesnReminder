@@ -29,7 +29,7 @@ public class NewRemainderActivity extends AppCompatActivity {
     TimePicker pickerTime;
     DatePicker pickerDate;
 
-    final static int RQS_1 = 1;
+    static int RQS_1 = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class NewRemainderActivity extends AppCompatActivity {
         Intent intent = new Intent(NewRemainderActivity.this, AlarmReceiver.class);
         intent.putExtra("Message",remainder_text);
         intent.putExtra("ID",String.valueOf(id));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewRemainderActivity.this, RQS_1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewRemainderActivity.this, RQS_1++, intent, 0);
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
         Log.i("new_reminder: ","set");
