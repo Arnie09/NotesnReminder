@@ -4,25 +4,75 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Remainder for: "
+            android:layout_margin="2dp"
+            android:textColor="#FFF0E7"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF0E7"
+            />
+
+    </LinearLayout>
+    <DatePicker
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:>
+
+    </DatePicker>
     <TimePicker
         android:id="@+id/TimePicker"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#90FFF0E7"
-        android:timePickerMode="spinner"
-       >
-
-
+        android:timePickerMode="spinner">
     </TimePicker>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repeating Remainder!"
+            android:layout_margin="10dp"
+            android:textColor="#FFF0E7"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_repeat"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/timerStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="0dp"
         android:background="#40FFF0E7"
         android:padding="30dp"
