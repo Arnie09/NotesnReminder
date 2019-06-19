@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <group
         android:id="@+id/options_menu_deletebutton">
     <item
@@ -17,6 +18,14 @@
             android:id="@+id/Edit"
             android:title="editButton"
             android:icon="@drawable/ic_edit_black_24dp"
+            app:showAsAction="ifRoom"/>
+    </group>
+    <group
+        android:id="@+id/options_menu_deletebutton2">
+        <item
+            android:id="@+id/remainder_delete"
+            android:title="delete_button"
+            android:icon="@drawable/ic_delete"
             app:showAsAction="ifRoom"/>
     </group>
 </menu>

@@ -83,13 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     workwithOptionToolbar(false);
                     Noteslayout.setVisibility(View.INVISIBLE);
                     Remainderlayout.setVisibility(View.VISIBLE);
-                    StartTimer.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            Toast.makeText(MainActivity.this, "Timer Started", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    
                     return true;
             }
             return false;
@@ -120,12 +114,20 @@ public class MainActivity extends AppCompatActivity {
     private void workwithOptionToolbar(boolean b) {
         if(menu_toolbar != null) {
             Log.i("MAIN_ACTIVITY", "Not Null");
-            menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton,b);
-            menu_toolbar.setGroupVisible(R.id.options_menu_editbutton,b);
+            if (b == true) {
+                menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton, b);
+                menu_toolbar.setGroupVisible(R.id.options_menu_editbutton, b);
+                menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton2, false);
+            } else {
+                menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton, false);
+                menu_toolbar.setGroupVisible(R.id.options_menu_editbutton, false);
+                menu_toolbar.setGroupVisible(R.id.options_menu_deletebutton2, true);
+            }
         }
         else {
             Log.i("MAIN_ACTIVITY", "Null");
             return;
+
         }
 
     }
@@ -158,12 +160,11 @@ public class MainActivity extends AppCompatActivity {
         Remainderlayout = findViewById(R.id.remainderItems);
         TakeNotes = findViewById(R.id.button);
         listView = findViewById(R.id.RecyclerView);
-        timePicker = findViewById(R.id.TimePicker);
-        StartTimer = findViewById(R.id.timerStart);
+//        timePicker = findViewById(R.id.TimePicker);
+//        StartTimer = findViewById(R.id.timerStart);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.add_notes);
-
     }
 
     @Override
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_activity_options_menu,menu);
         menu_toolbar = menu;
+        workwithOptionToolbar(true);
         return true;
     }
 
