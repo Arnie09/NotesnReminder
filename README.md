@@ -14,6 +14,8 @@ Screenshot of the page showing notes
 
 Screenshot of the page showing reminders
 
+
+
 ![Screenshot of ucoming notifications](3.jpeg)
 
 Screenshot of all coming notifications
