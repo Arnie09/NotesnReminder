@@ -1,5 +1,8 @@
 package com.example.notes;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView2;
     Toolbar toolbar;
     int ID_TO_BE_DELETED = -1;
+    String reminder_message = "";
     View currentselectedview;
     BottomNavigationView navigation;
     Menu menu_toolbar;
@@ -86,7 +90,16 @@ public class MainActivity extends AppCompatActivity {
                     Remainderlayout.setVisibility(View.VISIBLE);
                     //listview stuff goes here
                     refreshListView("Reminder");
-
+                    listView2.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long idno) {
+                            ID_TO_BE_DELETED = id.get(position);
+                            reminder_message = matterList.get(position);
+                            currentselectedview = view;
+                            highlightCurrentRow(currentselectedview);
+                            return false;
+                        }
+                    });
                     NewRemainder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -240,6 +253,28 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("ID",ID_TO_BE_DELETED);
                 startActivity(intent);
             }
+        }
+        else if(id == R.id.remainder_delete){
+            Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+            intent.putExtra("Message",reminder_message);
+            intent.putExtra("ID",String.valueOf(ID_TO_BE_DELETED));
+            int RQS_1 = ID_TO_BE_DELETED;
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, RQS_1, intent, 0);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+
+            Integer res;
+            res = databaseHandler.deleteData(String.valueOf(ID_TO_BE_DELETED));
+
+            if (res != 0) {
+                refreshListView("Reminder");
+                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                ID_TO_BE_DELETED = -1;
+            } else {
+                refreshListView("Reminder");
+                Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
