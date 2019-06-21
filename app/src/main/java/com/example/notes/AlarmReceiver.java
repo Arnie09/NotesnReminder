@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String topic = intent.getStringExtra("Message");
         String id = intent.getStringExtra("ID");
 
-        Toast.makeText(context, "Alarm received!"+topic, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Alarm received!"+topic, Toast.LENGTH_LONG).show();
         Log.i("AlarmReceiver:",topic);
         Log.i("AlarmReceiver:",String.valueOf(id));
         databaseHandler = new DatabaseHandler(context);

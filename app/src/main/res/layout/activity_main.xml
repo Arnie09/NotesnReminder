@@ -57,7 +57,7 @@
     <include
         android:id="@+id/remainderItems"
         layout="@layout/remainder_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="592dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="35dp"
